@@ -1,17 +1,16 @@
 package com.andrewvk.resk.entitylegalbills.web;
 
 import com.andrewvk.resk.entitylegalbills.model.Contract;
-import com.andrewvk.resk.entitylegalbills.repository.ContractRepository;
 import com.andrewvk.resk.entitylegalbills.service.ContractService;
-import com.andrewvk.resk.entitylegalbills.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static com.andrewvk.resk.entitylegalbills.web.SecurityUtil.*;
+
 
 @RestController
 @RequestMapping(value = "/test")
@@ -25,8 +24,8 @@ public class TestController {
     }
 
     @GetMapping
-    public List<Contract> getAll(){
-        int idDepartment = Util.ID_DEP;
+    public List<Contract> getAll() {
+        int idDepartment = authUserIdDepartment();
         return contractService.getAll(idDepartment);
     }
 }

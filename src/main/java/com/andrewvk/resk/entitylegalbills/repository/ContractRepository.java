@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ContractRepository {
 
-    List<Contract> getAll (int idDepartment);
+    List<Contract> getAll(int idDepartment);
 }

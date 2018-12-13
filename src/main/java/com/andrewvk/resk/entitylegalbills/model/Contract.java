@@ -1,9 +1,12 @@
 package com.andrewvk.resk.entitylegalbills.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "contract")
@@ -12,35 +15,50 @@ public class Contract implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "par_id")
+    @Column(name = "par_id", nullable = false, columnDefinition = "int default 0")
+    @NotNull
     private Integer parId;
 
-    @Column(name = "pay_id")
+    @Column(name = "pay_id", nullable = false, columnDefinition = "int default 0")
+    @NotNull
     private Integer payId;
 
-    @Column(name = "dog_id")
+    @Column(name = "dog_id", nullable = false)
+    @NotNull
     private Integer dogId;
 
-    @Column(name = "dog_num_s")
+    @Column(name = "dog_num_s", nullable = false)
+    @NotBlank
+    @Size(min = 1)
     private String dogNumS;
 
-    @Column(name = "dog_num")
+    @Column(name = "dog_num", nullable = false)
+    @NotNull
     private Integer dogNum;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
+    @NotBlank
+    @Size(min = 3)
     private String name;
 
-    @Column(name = "reg_date")
-    private LocalDate date;
+    @Column(name = "reg_date", nullable = false)
+    @NotNull
+    private LocalDate regDate;
 
-    @Column(name = "dog_type")
+    @Column(name = "dog_type", nullable = false, columnDefinition = "int default 0")
+    @NotNull
     private Integer dogType;
 
-    @Column(name = "id_group")
+    @Column(name = "id_group", nullable = false, columnDefinition = "int default 0")
+    @NotNull
     private Integer idGroup;
 
-    @Column(name = "id_department")
+    @Column(name = "id_department", nullable = false, columnDefinition = "int default 401")
+    @NotNull
     private Integer idDepartment;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contract")
+    private Set<FinParams> finParams;
 
     public Contract() {
 
@@ -72,10 +90,6 @@ public class Contract implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public void setDogType(Integer dogType) {
@@ -118,10 +132,6 @@ public class Contract implements Serializable {
         return name;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
     public Integer getDogType() {
         return dogType;
     }
@@ -134,6 +144,22 @@ public class Contract implements Serializable {
         return idDepartment;
     }
 
+    public LocalDate getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(LocalDate regDate) {
+        this.regDate = regDate;
+    }
+
+    public Set<FinParams> getFinParams() {
+        return finParams;
+    }
+
+    public void setFinParams(Set<FinParams> finParams) {
+        this.finParams = finParams;
+    }
+
     @Override
     public String toString() {
         return "Contract{" +
@@ -144,7 +170,7 @@ public class Contract implements Serializable {
                 ", dogNumS='" + dogNumS + '\'' +
                 ", dogNum=" + dogNum +
                 ", name='" + name + '\'' +
-                ", date=" + date +
+                ", regDate=" + regDate +
                 ", dogType=" + dogType +
                 ", idGroup=" + idGroup +
                 ", idDepartment=" + idDepartment +
